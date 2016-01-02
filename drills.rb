@@ -122,7 +122,6 @@ def select_every_n(ary, n = 1)
 end
 
 def compile_agenda(*agenda)
-  puts agenda
   agenda[2] = agenda[2] || "*"
   result = ""
   agenda[0].sort! {|x, y| x[:priority] <=> y[:priority]}
@@ -192,8 +191,6 @@ def character_count(word)
   end
   result
 end
-  # counts how many times each character appears in a string
-  # ignores case
 
 def word_count(string)
   result = {}
@@ -208,9 +205,8 @@ def word_count(string)
   end
   result
 end
-  # counts how many times a word appears in a string
-  # ignores case
-  # ignores characters that are not in the sequence a-z
 
-#most_frequent_word
+def most_frequent_word(string)
+  word_count(string).max_by {|key, value| value}[0]
+end
   # finds the word in a string that appears with the most frequency
