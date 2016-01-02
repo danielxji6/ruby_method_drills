@@ -17,7 +17,7 @@ def how_many_args(*arg)
   arg.count
 end
 
-def find_answer(hash = {})
+def find_answer(**hash)
   hash[:answer]
 end
 
@@ -36,12 +36,12 @@ def count_chars(word)
   word.size
 end
 
-def yell(string)
-  string.upcase + "!"
+def yell(str)
+  str.upcase + "!"
 end
 
-def to_telegram(string)
-  string.gsub(".", " STOP")
+def to_telegram(str)
+  str.gsub(".", " STOP")
 end
 
 def spell_out(word)
@@ -52,8 +52,8 @@ def seperate(word, sep = "-")
   word.downcase.split("").join(sep)
 end
 
-def croon(string)
-  string
+def croon(str)
+  str
   .split(" ")
   .map {|n| n.split("").join("-")}
   .join(" ")
@@ -64,17 +64,13 @@ def palindrome_word?(word)
   re_word == re_word.reverse
 end
 
-def palindrome_sentence?(string)
-  re_string = string.downcase.gsub(/\W/, "")
-  re_string == re_string.reverse
+def palindrome_sentence?(str)
+  re_str = str.downcase.gsub(/\W/, "")
+  re_str == re_str.reverse
 end
 
 def is_vowel(char)
-  if char.is_a?(String)
-    char.downcase.count('aeiou') > 0
-  else
-    false
-  end
+  char.is_a?(String) && char.downcase.count('aeiou') > 0
 end
 
 def add_period(string)
@@ -90,11 +86,11 @@ def count_spaces(string)
 end
 
 def string_lengths(ary)
-  ary.map! {|n| n = n.size}
+  ary.map! {|n| n.size}
 end
 
 def remove_falsy_values(ary)
-  ary.delete_if {|n| !n == true}
+  ary.delete_if {|n| !n}
 end
 
 def exclude_last(arg)
@@ -123,13 +119,9 @@ end
 
 def compile_agenda(*agenda)
   agenda[2] = agenda[2] || "*"
-  result = ""
   agenda[0].sort! {|x, y| x[:priority] <=> y[:priority]}
-  agenda[0].sort! {|x, y| y[:priority] <=> x[:priority]} if agenda[1] == "ASC"
-  agenda[0].each do |ele|
-    result += "#{agenda[2]} " + ele[:title] + "\n"
-  end
-  result.chop
+  agenda[0].reverse! if agenda[1] == "ASC"
+  agenda[0].map {|ele| "#{agenda[2]} #{ele[:title]}" }.join("\n")
 end
 
 ##############################
@@ -149,8 +141,8 @@ end
 
 def is_prime?(num)
   if num.is_a?(Integer) && num > 0
-    (Math.sqrt(num).floor - 1).times do |i|
-      return false if num % (i + 2) == 0
+    (2..Math.sqrt(num).floor).each do |i|
+      return false if num % (i) == 0
     end
     return true
   end
@@ -195,8 +187,7 @@ end
 def word_count(string)
   result = {}
   string.downcase.split(" ").each do |word|
-    word.gsub!(/\W/, "")
-    word.gsub!(/\d/, "")
+    word.gsub!(/[^a-z]/, "")
     if result.has_key?(word)
       result[word] += 1
     else
@@ -209,4 +200,3 @@ end
 def most_frequent_word(string)
   word_count(string).max_by {|key, value| value}[0]
 end
-  # finds the word in a string that appears with the most frequency
