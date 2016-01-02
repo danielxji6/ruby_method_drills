@@ -29,8 +29,7 @@ def first_char(word)
 end
 
 def polly_wanna(word)
-  word
-  word + word + word
+  word*3
 end
 
 def count_chars(word)
@@ -183,13 +182,32 @@ end
 #### MANIPULATING OBJECTS ####
 ##############################
 def character_count(word)
-
-
+  result = {}
+  word.downcase.each_char do |c|
+    if result.has_key?(c)
+      result[c] += 1
+    else
+      result[c] = 1
+    end
+  end
+  result
 end
   # counts how many times each character appears in a string
   # ignores case
 
-#word_count
+def word_count(string)
+  result = {}
+  string.downcase.split(" ").each do |word|
+    word.gsub!(/\W/, "")
+    word.gsub!(/\d/, "")
+    if result.has_key?(word)
+      result[word] += 1
+    else
+      result[word] = 1
+    end
+  end
+  result
+end
   # counts how many times a word appears in a string
   # ignores case
   # ignores characters that are not in the sequence a-z
